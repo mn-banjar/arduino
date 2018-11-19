@@ -1,0 +1,21 @@
+//You can switch the array line if you are using Common Cathode instead of Common Anode.
+//How each element was written in the array: Bgfedcba-
+int digit[10] = {B10000000, B11110010, B01001000, B01100000, B00110010, B00100100, B00000100, B11110000, B00000000, B00100000}; //common Anode, B is written
+//int digit[10] = {B01111111, B00001101, B10110111, B10011111, B11001101, B11011011, B11111011, B00001111, B11111111, B11011111}; //common Cathode, A is written
+
+void setup() {
+  // put your setup code here, to run once:
+  DDRD = B11111110; //make Port D (7-1) output, pin 0 input
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  int i = 0;
+  for(i; i<10; i++)
+  {
+    PORTD = digit[i];
+    delay(1000); //wait for 1 sec
+  }
+
+}
