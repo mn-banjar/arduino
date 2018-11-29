@@ -1,0 +1,93 @@
+/* Enter the input number (9999-0) */
+int input = 1678;
+
+//You can switch the array line if you are using Common Cathode instead of Common Anode.
+//How each element was written in the array: Bgfedcba-
+/* common Anode, B is written */
+int digit[10] = {B10000000, B11110010, B01001000, B01100000, B00110010, B00100100, B00000100, B11110000, B00000000, B00100000};
+/* common Cathode, A is written */
+//int digit[10] = {B01111111, B00001101, B10110111, B10011111, B11001101, B11011011, B11111011, B00001111, B11111111, B11011111};
+
+const int enD1 = 9;
+const int enD2 = 10;
+const int enD3 = 11;
+const int enD4 = 12;
+
+
+void setup() {
+  // put your setup code here, to run once:
+  DDRD = B11111110; //make Port D (7-1) output, pin 0 input
+  pinMode(enD1, OUTPUT);
+  pinMode(enD2, OUTPUT);
+  pinMode(enD3, OUTPUT);
+  pinMode(enD4, OUTPUT); 
+
+  digitalWrite(enD1, LOW); //initialize the digits
+  digitalWrite(enD2, LOW);
+  digitalWrite(enD3, LOW);
+  digitalWrite(enD4, LOW);
+}
+
+void loop() {
+
+  //############# displaying 4 digits number ################
+  //knowing that the displyed number is: D1-D2-D3-D4
+  digitalWrite(enD1, HIGH); //enable to light D1
+  digitalWrite(enD2, LOW);
+  digitalWrite(enD3, LOW);
+  digitalWrite(enD4, LOW);
+  int D1 = input/1000; //finding the last digit: D1
+  PORTD = digit[D1];
+  delay(1);
+  
+  digitalWrite(enD1, LOW);
+  digitalWrite(enD2, HIGH); //enable to light D2
+  digitalWrite(enD3, LOW);
+  digitalWrite(enD4, LOW);
+  int input3 = input - D1*1000; //input3 represents D2-D3-D4
+  int D2 = input3/100; //finding D2
+  PORTD = digit[D2];
+  delay(1);
+  
+  digitalWrite(enD1, LOW);
+  digitalWrite(enD2, LOW);
+  digitalWrite(enD3, HIGH); //enable to light D3
+  digitalWrite(enD4, LOW);
+  int input2 = input3 - D2*100; //input2 represents D3-D4
+  int D3 = input2/10; //finding D3
+  PORTD = digit[D3];
+  delay(1);
+  
+  digitalWrite(enD1, LOW);
+  digitalWrite(enD2, LOW);
+  digitalWrite(enD3, LOW);
+  digitalWrite(enD4, HIGH); //enable to light D4
+  int D4 = input2 - D3*10; //finding D4
+  PORTD = digit[D4];
+  delay(1); //end of displaying code
+ 
+
+ /*
+  //############# counting 10 to 20 ################
+    for (int i=10; i<=20; i++)
+  {
+    for (int j=0; j<500; j++)
+    {
+      digitalWrite(enD3, HIGH); //enable D3
+      digitalWrite(enD4, LOW);
+      int D3 = i/10;
+      PORTD = digit[D3];
+      delay(1);
+      
+      digitalWrite(enD3, LOW);
+      digitalWrite(enD4, HIGH); //enable D4
+      int D4 = i%10;
+      PORTD = digit[D4];
+      delay(1);
+    }
+  }// end of counting code
+ */
+}
+
+
+
